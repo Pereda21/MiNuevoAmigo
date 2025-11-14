@@ -1,0 +1,53 @@
+/* Estilos personalizados para MiNuevoAmigo */
+
+/* Colores personalizados */
+:root {
+    --verde-principal: #28a745;
+    --verde-oscuro: #1e7e34;
+    --verde-claro: #d4edda;
+}
+
+.btn-outline-green {
+    border-color: var(--verde-principal);
+    color: var(--verde-principal);
+}
+
+.btn-outline-green:hover {
+    background-color: var(--verde-principal);
+    color: white;
+}
+
+/* Hero section */
+.hero-section {
+    background: linear-gradient(rgba(40, 167, 69, 0.8), rgba(40, 167, 69, 0.9)), 
+                url('../images/hero-bg.jpg') center/cover;
+    color: white;
+    padding: 100px 0;
+}
+
+/* Tarjetas con sombra */
+.sombra-card {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.sombra-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Iconos de beneficios */
+.icono-beneficio {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+/* Espaciado consistente */
+section {
+    padding: 60px 0;
+}
+
+/* Responsive images */
+.img-fluid {
+    border-radius: 10px;
+}
