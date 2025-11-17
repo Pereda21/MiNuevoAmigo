@@ -160,14 +160,44 @@ $refugio_id = $_SESSION['user_id'];
 
                         <!-- Fotos -->
                         <h5 class="text-success mb-3 mt-4">Fotos</h5>
-                        
                         <div class="mb-3">
-                            <label class="form-label">Subir fotos del animal</label>
-                            <input type="file" class="form-control" name="fotos[]" multiple 
-                                   accept="image/*">
-                            <div class="form-text">Puedes seleccionar múltiples fotos. La primera será la principal.</div>
+                            <label class="form-label">Subir fotos del animal (máximo 4)</label>
+                            
+                            <!-- Foto 1 (Principal) -->
+                            <div class="mb-3">
+                                <label class="form-label small text-primary">📸 Foto principal *</label>
+                                <input type="file" class="form-control" name="foto_1" 
+                                    accept=".jpg,.jpeg,.png,.gif,.webp" required
+                                    onchange="validarImagen(this)">
+                                <div class="form-text">Esta será la foto principal del animal</div>
+                            </div>
+                            
+                            <!-- Foto 2 -->
+                            <div class="mb-3">
+                                <label class="form-label small">Foto adicional 2</label>
+                                <input type="file" class="form-control" name="foto_2" 
+                                    accept=".jpg,.jpeg,.png,.gif,.webp"
+                                    onchange="validarImagen(this)">
+                            </div>
+                            
+                            <!-- Foto 3 -->
+                            <div class="mb-3">
+                                <label class="form-label small">Foto adicional 3</label>
+                                <input type="file" class="form-control" name="foto_3" 
+                                    accept=".jpg,.jpeg,.png,.gif,.webp"
+                                    onchange="validarImagen(this)">
+                            </div>
+                            
+                            <!-- Foto 4 -->
+                            <div class="mb-3">
+                                <label class="form-label small">Foto adicional 4</label>
+                                <input type="file" class="form-control" name="foto_4" 
+                                    accept=".jpg,.jpeg,.png,.gif,.webp"
+                                    onchange="validarImagen(this)">
+                            </div>
+                            
+                            <div class="form-text text-muted">Formatos aceptados: JPG, PNG, GIF, WebP. Tamaño máximo: 5MB por imagen.</div>
                         </div>
-
                         <div class="d-grid gap-2 mt-4">
                             <button type="submit" class="btn btn-success btn-lg">Guardar Animal</button>
                             <a href="animals.php" class="btn btn-outline-secondary">Cancelar</a>
@@ -178,5 +208,5 @@ $refugio_id = $_SESSION['user_id'];
         </div>
     </div>
 </div>
-
+<script src="../js/animal_form.js"></script>
 <?php require_once '../includes/footer.php'; ?>

@@ -13,7 +13,7 @@ if (isset($_SESSION['user_id'])) {
         // Usuario no existe, destruir sesión
         $_SESSION = array();
         session_destroy();
-        header("Location: " . (strpos($_SERVER['REQUEST_URI'], 'pages/') !== false ? '../index.php' : 'index.php'));
+        header("Location: index.php");
         exit();
     }
 }
@@ -25,27 +25,27 @@ if (isset($_SESSION['user_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MiNuevoAmigo - Adopta una Mascota</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 
   <!-- Barra de navegación -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="../index.php">MiNuevoAmigo</a>
+      <a class="navbar-brand fw-bold" href="index.php">MiNuevoAmigo</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="menu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="../pages/animals.php">Animales</a></li>
+          <li class="nav-item"><a class="nav-link" href="index.php">Inicio</a></li>
+          <li class="nav-item"><a class="nav-link" href="pages/animals.php">Animales</a></li>
           <?php if(isset($_SESSION['user_id'])): ?>
-            <li class="nav-item"><a class="nav-link" href="../pages/profile.php">Mi Perfil</a></li>
-            <li class="nav-item"><a class="nav-link" href="../pages/logout.php">Cerrar Sesión</a></li>
+            <li class="nav-item"><a class="nav-link" href="pages/profile.php">Mi Perfil</a></li>
+            <li class="nav-item"><a class="nav-link" href="pages/logout.php">Cerrar Sesión</a></li>
           <?php else: ?>
             <li class="nav-item"><a class="nav-link" href="pages/login.php">Iniciar sesión</a></li>
-            <li class="nav-item"><a class="nav-link" href="../pages/register.php">Registrarse</a></li>
+            <li class="nav-item"><a class="nav-link" href="pages/register.php">Registrarse</a></li>
           <?php endif; ?>
         </ul>
       </div>

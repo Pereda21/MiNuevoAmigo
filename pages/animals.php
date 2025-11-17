@@ -7,10 +7,11 @@ $edad = $_GET['edad'] ?? '';
 $tamano = $_GET['tamano'] ?? '';
 $ciudad = $_GET['ciudad'] ?? '';
 
-// Construir consulta con filtros CORREGIDA
+// Construir consulta con filtros
 $sql = "SELECT a.*, 
                COALESCE(ad.ciudad, ref.ciudad) as ciudad_refugio,
-               ref.nombre_refugio
+               ref.nombre_refugio,
+               (SELECT ruta_foto FROM fotos_animales WHERE id_animal = a.id AND es_principal = 1 LIMIT 1) as foto_principal
         FROM animales a 
         JOIN usuarios u ON a.id_refugio = u.id 
         LEFT JOIN refugios ref ON u.id = ref.id
@@ -74,7 +75,7 @@ $result = $conn->query($sql);
                             <label class="form-label">Tamaño</label>
                             <select class="form-select" name="tamano">
                                 <option value="">Todos</option>
-                                <option value="pequeno" <?php echo $tamano == 'pequeno' ? 'selected' : ''; ?>>Pequeño</option>
+                                <option value="pequeño" <?php echo $tamano == 'pequeño' ? 'selected' : ''; ?>>Pequeño</option>
                                 <option value="mediano" <?php echo $tamano == 'mediano' ? 'selected' : ''; ?>>Mediano</option>
                                 <option value="grande" <?php echo $tamano == 'grande' ? 'selected' : ''; ?>>Grande</option>
                             </select>
@@ -116,9 +117,23 @@ $result = $conn->query($sql);
                         <div class="col-md-6 col-lg-4 mb-4">
                             <div class="card sombra-card h-100">
                                 <!-- Imagen del animal -->
-                                <img src="https://via.placeholder.com/300x200/28a745/ffffff?text=<?php echo urlencode($animal['nombre']); ?>" 
-                                     class="card-img-top" alt="<?php echo $animal['nombre']; ?>" 
-                                     style="height: 200px; object-fit: cover;">
+                                <?php if (!empty($animal['foto_principal'])): ?>
+                                    <img src="../uploads/animals/<?php echo $animal['foto_principal']; ?>" 
+                                         class="card-img-top" alt="<?php echo $animal['nombre']; ?>" 
+                                         style="height: 200px; object-fit: cover;">
+                                <?php else: ?>
+                                    <!-- Imagen por defecto si no hay foto -->
+                                    <div class="card-img-top d-flex align-items-center justify-content-center bg-light" 
+                                         style="height: 200px;">
+                                        <span class="text-muted fs-1">
+                                            <?php 
+                                            if ($animal['tipo'] == 'perro') echo '🐕';
+                                            elseif ($animal['tipo'] == 'gato') echo '🐈';
+                                            else echo '🐾';
+                                            ?>
+                                        </span>
+                                    </div>
+                                <?php endif; ?>
                                 
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $animal['nombre']; ?></h5>

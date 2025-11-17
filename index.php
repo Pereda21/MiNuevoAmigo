@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/header.php';
+require_once 'includes/header_root.php';
 ?>
 
   <!-- Sección principal -->
@@ -18,7 +18,7 @@ require_once 'includes/header.php';
   <section class="container my-5">
     <div class="row align-items-center">
       <div class="col-md-6">
-        <img src="https://via.placeholder.com/500x300/28a745/ffffff?text=Imagen+Animal" 
+        <img src="images/cachorro1.jpg" 
              alt="Adopta una mascota" class="img-fluid rounded">
       </div>
       <div class="col-md-6">

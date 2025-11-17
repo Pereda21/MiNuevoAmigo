@@ -14,8 +14,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         // Verificar contraseña
         if (password_verify($password, $user['password'])) {
-            // Iniciar sesión
-            session_start();
+            // Iniciar sesión limpia
+            if (session_status() == PHP_SESSION_NONE) {
+                session_start();
+            } else {
+                // Limpiar sesión anterior si existe
+                session_unset();
+            }
+            
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
             $_SESSION['user_type'] = $user['tipo'];
