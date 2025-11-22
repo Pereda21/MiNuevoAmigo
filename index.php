@@ -1,5 +1,5 @@
 <?php
-require_once 'includes/header_root.php';
+require_once 'includes/header.php';
 ?>
 
   <!-- Sección principal -->

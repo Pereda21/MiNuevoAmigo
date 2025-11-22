@@ -26,6 +26,37 @@ if ($user_type === 'adoptante') {
 
 $result = $conn->query($sql);
 $user_data = $result->fetch_assoc();
+
+// Obtener estadísticas según el tipo de usuario
+if ($user_type === 'adoptante') {
+    // Estadísticas para adoptante
+    $solicitudes_sql = "SELECT COUNT(*) as total FROM solicitudes_adopcion WHERE id_adoptante = '$user_id'";
+    $solicitudes_result = $conn->query($solicitudes_sql);
+    $total_solicitudes = $solicitudes_result->fetch_assoc()['total'];
+    
+    $aceptadas_sql = "SELECT COUNT(*) as aceptadas FROM solicitudes_adopcion WHERE id_adoptante = '$user_id' AND estado = 'aceptada'";
+    $aceptadas_result = $conn->query($aceptadas_sql);
+    $solicitudes_aceptadas = $aceptadas_result->fetch_assoc()['aceptadas'];
+} else {
+    // Estadísticas para refugio
+    $animales_sql = "SELECT COUNT(*) as total FROM animales WHERE id_refugio = '$user_id' AND estado = 'disponible'";
+    $animales_result = $conn->query($animales_sql);
+    $animales_activos = $animales_result->fetch_assoc()['total'];
+    
+    $solicitudes_pendientes_sql = "SELECT COUNT(*) as pendientes 
+                                  FROM solicitudes_adopcion sa 
+                                  JOIN animales a ON sa.id_animal = a.id 
+                                  WHERE a.id_refugio = '$user_id' AND sa.estado = 'pendiente'";
+    $solicitudes_pendientes_result = $conn->query($solicitudes_pendientes_sql);
+    $solicitudes_pendientes = $solicitudes_pendientes_result->fetch_assoc()['pendientes'];
+    
+    $adopciones_exitosas_sql = "SELECT COUNT(*) as exitosas 
+                               FROM solicitudes_adopcion sa 
+                               JOIN animales a ON sa.id_animal = a.id 
+                               WHERE a.id_refugio = '$user_id' AND sa.estado = 'aceptada'";
+    $adopciones_exitosas_result = $conn->query($adopciones_exitosas_sql);
+    $adopciones_exitosas = $adopciones_exitosas_result->fetch_assoc()['exitosas'];
+}
 ?>
 
 <?php require_once '../includes/header.php'; ?>
@@ -148,7 +179,7 @@ $user_data = $result->fetch_assoc();
                     <div class="col-md-6">
                         <div class="card sombra-card text-center">
                             <div class="card-body">
-                                <h3 class="text-success">0</h3>
+                                <h3 class="text-success"><?php echo $total_solicitudes; ?></h3>
                                 <p class="text-muted">Solicitudes enviadas</p>
                             </div>
                         </div>
@@ -156,8 +187,8 @@ $user_data = $result->fetch_assoc();
                     <div class="col-md-6">
                         <div class="card sombra-card text-center">
                             <div class="card-body">
-                                <h3 class="text-success">0</h3>
-                                <p class="text-muted">Adopciones completadas</p>
+                                <h3 class="text-success"><?php echo $solicitudes_aceptadas; ?></h3>
+                                <p class="text-muted">Adopciones aceptadas</p>
                             </div>
                         </div>
                     </div>
@@ -165,7 +196,7 @@ $user_data = $result->fetch_assoc();
                     <div class="col-md-4">
                         <div class="card sombra-card text-center">
                             <div class="card-body">
-                                <h3 class="text-success">0</h3>
+                                <h3 class="text-success"><?php echo $animales_activos; ?></h3>
                                 <p class="text-muted">Animales activos</p>
                             </div>
                         </div>
@@ -173,7 +204,7 @@ $user_data = $result->fetch_assoc();
                     <div class="col-md-4">
                         <div class="card sombra-card text-center">
                             <div class="card-body">
-                                <h3 class="text-success">0</h3>
+                                <h3 class="text-success"><?php echo $solicitudes_pendientes; ?></h3>
                                 <p class="text-muted">Solicitudes pendientes</p>
                             </div>
                         </div>
@@ -181,7 +212,7 @@ $user_data = $result->fetch_assoc();
                     <div class="col-md-4">
                         <div class="card sombra-card text-center">
                             <div class="card-body">
-                                <h3 class="text-success">0</h3>
+                                <h3 class="text-success"><?php echo $adopciones_exitosas; ?></h3>
                                 <p class="text-muted">Adopciones exitosas</p>
                             </div>
                         </div>

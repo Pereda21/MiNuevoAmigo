@@ -4,7 +4,6 @@ if (session_status() == PHP_SESSION_NONE) {
 }
 
 // Validar que si existe user_id, el usuario realmente existe
-// Esto evita que sesiones fantasma persistan
 if (isset($_SESSION['user_id'])) {
     require_once __DIR__ . '/../config/database.php';
     $user_id = $_SESSION['user_id'];
@@ -17,6 +16,19 @@ if (isset($_SESSION['user_id'])) {
         exit();
     }
 }
+
+// Determinar la ruta base según la ubicación actual
+$current_dir = dirname($_SERVER['PHP_SELF']);
+$is_in_pages = strpos($current_dir, 'pages') !== false;
+$base_path = $is_in_pages ? '../' : '';
+
+// Determinar rutas para navegación
+$index_path = $base_path . 'index.php';
+$animals_path = $base_path . 'pages/animals.php';
+$login_path = $base_path . 'pages/login.php';
+$register_path = $base_path . 'pages/register.php';
+$profile_path = $base_path . 'pages/profile.php';
+$logout_path = $base_path . 'pages/logout.php';
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -25,27 +37,39 @@ if (isset($_SESSION['user_id'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>MiNuevoAmigo - Adopta una Mascota</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="<?php echo $base_path; ?>css/style.css" />
 </head>
 <body>
 
   <!-- Barra de navegación -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-success">
     <div class="container">
-      <a class="navbar-brand fw-bold" href="../index.php">MiNuevoAmigo</a>
+      <a class="navbar-brand fw-bold" href="<?php echo $index_path; ?>">MiNuevoAmigo</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="menu">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link" href="../index.php">Inicio</a></li>
-          <li class="nav-item"><a class="nav-link" href="../pages/animals.php">Animales</a></li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo $index_path; ?>">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="<?php echo $animals_path; ?>">Animales</a>
+          </li>
           <?php if(isset($_SESSION['user_id'])): ?>
-            <li class="nav-item"><a class="nav-link" href="../pages/profile.php">Mi Perfil</a></li>
-            <li class="nav-item"><a class="nav-link" href="../pages/logout.php">Cerrar Sesión</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php echo $profile_path; ?>">Mi Perfil</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php echo $logout_path; ?>">Cerrar Sesión</a>
+            </li>
           <?php else: ?>
-            <li class="nav-item"><a class="nav-link" href="pages/login.php">Iniciar sesión</a></li>
-            <li class="nav-item"><a class="nav-link" href="../pages/register.php">Registrarse</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php echo $login_path; ?>">Iniciar sesión</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="<?php echo $register_path; ?>">Registrarse</a>
+            </li>
           <?php endif; ?>
         </ul>
       </div>
